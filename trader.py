@@ -5,7 +5,7 @@ from coinbase.rest import RESTClient
 from json import dumps
 
 load_dotenv()
-API_KEY_NAME = os.getenv("API_KEY_NAME")
+API_KEY_NAME = os.getenv("API_KEY")
 PRIVATE_KEY = os.getenv("PRIVATE_KEY")
 
 # NOT NECESSARY BECAUSE COINBASE SDK HANDLES IT AUTOMATICALLY BUT KEEP JUST IN CASE
@@ -27,9 +27,17 @@ class CoinbaseTrader:
     # doge uuid "e47aa869-9f80-504e-b130-23ec7ca40667"
     def __init__(self, api_key: str, api_secret: str) -> None:
         self.client = RESTClient(api_key=api_key, api_secret=api_secret)
+        self.doge_uuid = ""
 
     def list_accounts(self) -> dict[str, any]:
-        return self.client.get_accounts()
+        return self.client.get_accounts()["accounts"]
+    
+    def get_doge_uuid(self) -> str:
+        accounts = self.list_accounts()
+        for account in accounts:
+            if account.get("name", None) == "DOGE Wallet":
+                return account.get("uuid", None)
+            
      
     def get_doge_acc_details(self) -> dict[str, any]:
         return self.client.get_account(account_uuid="e47aa869-9f80-504e-b130-23ec7ca40667")
@@ -42,5 +50,6 @@ class CoinbaseTrader:
 if __name__ == "__main__":
     doge_trader = CoinbaseTrader(api_key=API_KEY_NAME, api_secret=PRIVATE_KEY)
     accounts = (doge_trader.list_accounts())
-    doge_account = doge_trader.get_doge_acc_details()
-    print(doge_account)
+    print(doge_trader.get_doge_uuid())
+    '''doge_account = doge_trader.get_doge_acc_details()
+    print(doge_account)'''
