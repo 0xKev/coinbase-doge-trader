@@ -27,37 +27,79 @@ def build_jwt(request_method: str, request_path: str) -> str:
 # as longa s self.doge_uuid is None, create purchase and assign
 
 class CoinbaseTrader:
-    # most likely trading doge and looking through reddit for dog pics
-    # doge uuid "e47aa869-9f80-504e-b130-23ec7ca40667"
     def __init__(self, api_key: str, api_secret: str) -> None:
-        self.client = RESTClient(api_key=api_key, api_secret=api_secret)
-        self.doge_uuid = self.get_doge_uuid()
+        """
+        Initializes a new instance of the Trader class.
 
+        Args:
+            api_key (str): The API key for accessing the Coinbase API.
+            api_secret (str): The API secret for accessing the Coinbase API.
+        """
+        self.client = RESTClient(api_key=api_key, api_secret=api_secret)
+        self.doge_uuid = self.get_uuid()
 
     def list_accounts(self) -> dict[str, any]:
+        """
+        Retrieves a list of accounts associated with the Coinbase client
+        
+        Returns:
+            dict[str, any]: A dictionary of all account information
+        """
         return self.client.get_accounts()["accounts"]
     
-    def get_doge_uuid(self) -> str:
+    def get_uuid(self) -> str:
+        """
+        Retrives the UUID of the DOGE coin account
+
+        Returns:
+            str: The UUID of the DOGE coin account
+        """
         accounts = self.list_accounts()
         for account in accounts:
             if account.get("name", None) == "DOGE Wallet":
                 return account.get("uuid", None)
             
-    def get_doge_acc_details(self) -> dict[str, any]:
+    def get_acc_details(self) -> dict[str, any]:
+        """
+        Retrives the DOGE coin account details
+
+        Returns:
+            dict[str, any]: A dictionary containing the DOGE coin account information
+        """
         account_details = self.client.get_account(account_uuid=self.doge_uuid)
         # dumps used to return as formatted json
         #return dumps(account_details, indent=2)
         return account_details
     
+    def place_order(self, buy_cost: int = 1) -> bool:
+        try:
+            order = self.client.market_order_buy(
+                product_id="DOGE-USDC",
+                quote_size=buy_cost,
+            )
+            return True
+        except Exception as err:
+            print(err)
+            return False
+    
+
+    
+    
 class SandboxCoinbaseTrader:
+    # WILL ONLY WORK WITH EXCHANGE API
+    # DOES NOT WORK WITH ADVANECD TRADE API 
+    # DOES NOT WORK WITH OFFICIAL COINBASE SDK
     # no doge, will do btc
+    # use generic REST calls due to different sandbox endpoints
+    # REST API url https://api-public.sandbox.exchange.coinbase.com
     def __init__(self, api_key: str, api_secret: str) -> None:
         self.client = RESTClient(api_key=api_key, api_secret=api_secret)
         self.btc_uuid = self.get_btc_uuid()
+        self.api_url = "https://api-public.sandbox.exchange.coinbase.com/accounts"
 
 
     def list_accounts(self) -> dict[str, any]:
-        return self.client.get_accounts()["accounts"]
+        return self.client.get(url_path=self.api_url)
     
     def get_btc_uuid(self) -> str:
         accounts = self.list_accounts()
@@ -65,12 +107,14 @@ class SandboxCoinbaseTrader:
             if account.get("name", None) == "BTC Wallet":
                 return account.get("uuid", None)
             
-    def get_doge_acc_details(self) -> dict[str, any]:
-        account_details = self.client.get_account(account_uuid=self.doge_uuid)
+    def get_btc_acc_details(self) -> dict[str, any]:
+        account_details = self.client.get_account(account_uuid=self.btc_uuid)
         # dumps used to return as formatted json
         #return dumps(account_details, indent=2)
         return account_details
+    
+    
 if __name__ == "__main__":
     doge_trader = CoinbaseTrader(api_key=API_KEY_NAME, api_secret=PRIVATE_KEY)
-    account = doge_trader.get_doge_acc_details()
+    account = doge_trader.get_acc_details()
     print(doge_trader.list_accounts())

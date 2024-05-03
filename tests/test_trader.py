@@ -7,9 +7,8 @@ from trader import CoinbaseTrader
 
 
 load_dotenv()
-SANDBOX_API_KEY = os.getenv("SANDBOX_API_KEY")
-SANDBOX_PRIVATE_KEY = os.getenv("SANDBOX_PRIVATE_KEY")
+API_KEY = os.getenv("API_KEY")
+PRIVATE_KEY = os.getenv("PRIVATE_KEY")
 
-trader = CoinbaseTrader(SANDBOX_API_KEY, SANDBOX_PRIVATE_KEY)
-
+trader = CoinbaseTrader(api_key=API_KEY, api_secret=PRIVATE_KEY)
 print(trader.list_accounts())
