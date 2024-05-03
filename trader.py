@@ -48,7 +48,7 @@ class CoinbaseTrader:
         """
         return self.client.get_accounts()["accounts"]
     
-    def get_uuid(self) -> str:
+    def get_doge_uuid(self) -> str:
         """
         Retrives the UUID of the DOGE coin account
 
@@ -89,6 +89,8 @@ class CoinbaseTrader:
         )
         return order["success"]
     
+    def check_balance(self) -> float:
+
 
     
 
