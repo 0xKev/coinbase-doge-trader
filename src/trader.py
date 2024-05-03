@@ -6,8 +6,8 @@ from json import dumps
 from time import time
 
 load_dotenv()
-API_KEY_NAME = os.getenv("API_KEY")
-PRIVATE_KEY = os.getenv("PRIVATE_KEY")
+COINBASE_API_KEY_NAME = os.getenv("COINBASE_API_KEY")
+COINBASE_PRIVATE_KEY = os.getenv("COINBASE_PRIVATE_KEY")
 
 # NOT NECESSARY BECAUSE COINBASE SDK HANDLES IT AUTOMATICALLY BUT KEEP JUST IN CASE
 def build_jwt(request_method: str, request_path: str) -> str: 
@@ -18,8 +18,8 @@ def build_jwt(request_method: str, request_path: str) -> str:
     )
     jwt_token = jwt_generator.build_rest_jwt(
         uri=jwt_uri,
-        key_var=API_KEY_NAME,
-        secret_var=PRIVATE_KEY
+        key_var=COINBASE_API_KEY_NAME,
+        secret_var=COINBASE_PRIVATE_KEY
     )
     return jwt_token
 
@@ -28,15 +28,15 @@ def build_jwt(request_method: str, request_path: str) -> str:
 # as longa s self.doge_uuid is None, create purchase and assign
 
 class CoinbaseTrader:
-    def __init__(self, api_key: str, api_secret: str) -> None:
+    def __init__(self, COINBASE_API_KEY: str, api_secret: str) -> None:
         """
         Initializes a new instance of the Trader class.
 
         Args:
-            api_key (str): The API key for accessing the Coinbase API.
+            COINBASE_API_KEY (str): The API key for accessing the Coinbase API.
             api_secret (str): The API secret for accessing the Coinbase API.
         """
-        self.client = RESTClient(api_key=api_key, api_secret=api_secret)
+        self.client = RESTClient(COINBASE_API_KEY=COINBASE_API_KEY, api_secret=api_secret)
         self.wallets = {
             "doge": "DOGE Wallet",
             "usd": "Cash (USD)",
@@ -137,8 +137,8 @@ class SandboxCoinbaseTrader:
     # no doge, will do btc
     # use generic REST calls due to different sandbox endpoints
     # REST API url https://api-public.sandbox.exchange.coinbase.com
-    def __init__(self, api_key: str, api_secret: str) -> None:
-        self.client = RESTClient(api_key=api_key, api_secret=api_secret)
+    def __init__(self, COINBASE_API_KEY: str, api_secret: str) -> None:
+        self.client = RESTClient(COINBASE_API_KEY=COINBASE_API_KEY, api_secret=api_secret)
         self.btc_uuid = self.get_btc_uuid()
         self.api_url = "https://api-public.sandbox.exchange.coinbase.com/accounts"
 
@@ -160,6 +160,6 @@ class SandboxCoinbaseTrader:
     
     
 if __name__ == "__main__":
-    doge_trader = CoinbaseTrader(api_key=API_KEY_NAME, api_secret=PRIVATE_KEY)
+    doge_trader = CoinbaseTrader(COINBASE_API_KEY=COINBASE_API_KEY_NAME, api_secret=COINBASE_PRIVATE_KEY)
     account = doge_trader.get_acc_details()
     print(doge_trader.list_accounts())
