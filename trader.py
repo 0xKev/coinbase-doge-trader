@@ -116,7 +116,10 @@ class CoinbaseTrader:
         Checks the balance of specified wallet (doge/usd)
 
         Args:
-
+            wallet_name (str): Name of wallet
+        
+        Returns:
+            float: Balance of specified wallet (doge/usd)
         """
         if wallet_name not in self.wallets:
             raise "Invalid wallet name."
