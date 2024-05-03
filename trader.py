@@ -37,13 +37,15 @@ class CoinbaseTrader:
             api_secret (str): The API secret for accessing the Coinbase API.
         """
         self.client = RESTClient(api_key=api_key, api_secret=api_secret)
-        self.doge_uuid = self.get_uuid("doge")
-        self.usd_uuid = self.get_uuid("usd")
-
         self.wallets = {
             "doge": "DOGE Wallet",
             "usd": "Cash (USD)",
         }
+        
+        self.doge_uuid = self.get_uuid("doge")
+        self.usd_uuid = self.get_uuid("usd")
+
+        
 
     def list_accounts(self) -> dict[str, any]:
         """
@@ -70,14 +72,21 @@ class CoinbaseTrader:
             if account.get("name", None) == self.wallets[wallet_name]:
                 return account.get("uuid", None)
             
-    def get_acc_details(self) -> dict[str, any]:
+    def get_acc_details(self, wallet_name: str) -> dict[str, any]:
         """
-        Retrieves the DOGE coin account details
+        Retrieves the specified account details
 
+        Args:
+            wallet_name (str): The wallet name
+        
         Returns:
-            dict[str, any]: A dictionary containing the DOGE coin account information
+            dict[str, any]: A dictionary containing the specified account information
         """
-        account_details = self.client.get_account(account_uuid=self.doge_uuid)
+        wallet_accounts = {
+            "doge": self.doge_uuid,
+            "usd": self.usd_uuid,
+        }
+        account_details = self.client.get_account(account_uuid=wallet_accounts[wallet_name])
         # dumps used to return as formatted json
         #return dumps(account_details, indent=2)
         return account_details
