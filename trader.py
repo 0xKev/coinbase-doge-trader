@@ -40,6 +40,11 @@ class CoinbaseTrader:
         self.doge_uuid = self.get_uuid("doge")
         self.usd_uuid = self.get_uuid("usd")
 
+        self.wallets = {
+            "doge": "DOGE Wallet",
+            "usd": "Cash (USD)",
+        }
+
     def list_accounts(self) -> dict[str, any]:
         """
         Retrieves a list of accounts associated with the Coinbase client
@@ -59,14 +64,10 @@ class CoinbaseTrader:
         Returns:
             str: The UUID of the specified account
         """
-        wallets = {
-            "doge": "DOGE Wallet",
-            "usd": "Cash (USD)",
-        }
 
         accounts = self.list_accounts()
         for account in accounts:
-            if account.get("name", None) == wallets[wallet_name]:
+            if account.get("name", None) == self.wallets[wallet_name]:
                 return account.get("uuid", None)
             
     def get_acc_details(self) -> dict[str, any]:
@@ -99,7 +100,7 @@ class CoinbaseTrader:
         return order["success"]
     
     def check_balance(self) -> float:
-        pass
+        return 
 
     
 
