@@ -101,12 +101,15 @@ class CoinbaseTrader:
         Returns:
             bool: True if order placed successfully, else False
         """
-        order = self.client.market_order_buy(
-                client_order_id=str(int(time())),
-                product_id="DOGE-USD",
-                quote_size=buy_cost,
-        )
-        return order["success"]
+        if self.check_balance("doge") - 1 <= buy_cost:
+            # - 1 to consider fees
+            order = self.client.market_order_buy(
+                    client_order_id=str(int(time())),
+                    product_id="DOGE-USD",
+                    quote_size=buy_cost,
+            )
+            return order["success"]
+        return False
     
     def check_balance(self, wallet_name: str) -> float:
         """
