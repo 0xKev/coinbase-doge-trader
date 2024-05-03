@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from coinbase import jwt_generator
 from coinbase.rest import RESTClient
 from json import dumps
+from time import time
 
 load_dotenv()
 API_KEY_NAME = os.getenv("API_KEY")
@@ -61,7 +62,7 @@ class CoinbaseTrader:
             
     def get_acc_details(self) -> dict[str, any]:
         """
-        Retrives the DOGE coin account details
+        Retrieves the DOGE coin account details
 
         Returns:
             dict[str, any]: A dictionary containing the DOGE coin account information
@@ -71,16 +72,24 @@ class CoinbaseTrader:
         #return dumps(account_details, indent=2)
         return account_details
     
-    def place_order(self, buy_cost: int = 1) -> bool:
-        try:
-            order = self.client.market_order_buy(
-                product_id="DOGE-USDC",
+    def place_order(self, buy_cost: str = "1") -> bool:
+        """
+        Places a market order for DOGE coin if sufficient money
+
+        Args:
+            buy_cost (str): Amount of money to spend on order
+        
+        Returns:
+            bool: True if order placed successfully, else False
+        """
+        order = self.client.market_order_buy(
+                client_order_id=str(int(time())),
+                product_id="DOGE-USD",
                 quote_size=buy_cost,
-            )
-            return True
-        except Exception as err:
-            print(err)
-            return False
+        )
+        return order["success"]
+    
+
     
 
     

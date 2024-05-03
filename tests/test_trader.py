@@ -11,4 +11,4 @@ API_KEY = os.getenv("API_KEY")
 PRIVATE_KEY = os.getenv("PRIVATE_KEY")
 
 trader = CoinbaseTrader(api_key=API_KEY, api_secret=PRIVATE_KEY)
-print(trader.list_accounts())
+print(trader.place_order())
