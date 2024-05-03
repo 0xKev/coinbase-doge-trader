@@ -28,7 +28,7 @@ def build_jwt(request_method: str, request_path: str) -> str:
 # as longa s self.doge_uuid is None, create purchase and assign
 
 class CoinbaseTrader:
-    def __init__(self, COINBASE_API_KEY: str, api_secret: str) -> None:
+    def __init__(self, api_key: str, api_secret: str) -> None:
         """
         Initializes a new instance of the Trader class.
 
@@ -36,7 +36,7 @@ class CoinbaseTrader:
             COINBASE_API_KEY (str): The API key for accessing the Coinbase API.
             api_secret (str): The API secret for accessing the Coinbase API.
         """
-        self.client = RESTClient(COINBASE_API_KEY=COINBASE_API_KEY, api_secret=api_secret)
+        self.client = RESTClient(api_key=api_key, api_secret=api_secret)
         self.wallets = {
             "doge": "DOGE Wallet",
             "usd": "Cash (USD)",
