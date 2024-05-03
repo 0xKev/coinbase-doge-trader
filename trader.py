@@ -108,10 +108,13 @@ class CoinbaseTrader:
         )
         return order["success"]
     
-    def check_balance(self) -> float:
-        return 
-
-    
+    def check_balance(self, wallet_name: str) -> float:
+        if wallet_name not in self.wallets:
+            raise "Invalid wallet name."
+        
+        account = self.get_acc_details(wallet_name)["account"]
+        balance = account["available_balance"]["value"]
+        return balance
 
     
     
