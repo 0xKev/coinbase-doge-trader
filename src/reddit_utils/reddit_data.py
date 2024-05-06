@@ -1,6 +1,7 @@
 import praw
 import os
 from dotenv import load_dotenv
+import string
 
 load_dotenv()
 REDDIT_CLIENT_ID = os.getenv("REDDIT_CLIENT_ID")
@@ -30,11 +31,16 @@ class RedditClient:
             'copy cat', 'catitude', 'catsplay', 'cat burglar', 'whisker fatigue'
         }
 
-    def get_titles(self) -> list[str]:
-        titles = []
+    def process_titles(self) -> list[str]:
+        processed_titles = []
         for submission in self.client.subreddit("aww").top(time_filter="day", limit=5):
-            titles.append(submission.title)
-        return titles
+            processed_titles.append("".join(char for char in submission.title if char not in string.punctuation).lower())
+        return processed_titles
+    
+
+    
+    
+
     
 if __name__ == "__main__":
 
@@ -43,7 +49,7 @@ if __name__ == "__main__":
         client_id=REDDIT_CLIENT_ID,
         client_secret=REDDIT_CLIENT_SECRET,
     )
-    print(reddit.dog_word_lists)
+    print(reddit.process_titles())
 
     
     
