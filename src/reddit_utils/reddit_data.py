@@ -45,17 +45,17 @@ class RedditClient:
             list[str]: A processed list of the top number of posts (lowercase and no punctuation)
         """
         processed_titles = []
-        for submission in self.client.subreddit("aww").top(time_filter="day", limit=num_posts):
+        for submission in self.client.subreddit("aww").top(time_filter="day", limit=30):
             processed_titles.append("".join(char for char in submission.title if char not in string.punctuation).lower())
         self.titles = processed_titles
         return processed_titles
     
-    def get_majority(self) -> str:
+    def get_majority(self) -> tuple[str, dict[str, int]]:
         """
         Determines if the majority of top posts are related to cats or dogs.
 
         Returns:
-            str: "dogs" if majority are dogs, "cats" if majority are cats else "equal
+            tuple[str, dict[str, int]]: A tuple of the majority cat/dog and a dict of the counts of each
         """
         counts = {
             "dogs": 0,
@@ -69,9 +69,9 @@ class RedditClient:
                 counts["cats"] += 1
         
         if counts["dogs"] == counts["cats"]:
-            return "equal"
+            return ("equal", counts)
         else:
-            return max(counts, key=counts.get)
+            return (max(counts, key=counts.get), counts)
     
 
     
