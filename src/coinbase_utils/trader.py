@@ -132,6 +132,15 @@ class CoinbaseTrader:
             )
             return sell_order["success"]
         
+    def cost_to_quantity(self, cost: int = 1) -> float:
+        bid_ask: dict[str, float] = self.get_bid_ask("doge")
+        quantity = {
+            "bid_quantity": round((cost / bid_ask["bid_price"]), 5),
+            "ask_quantity": round((cost / bid_ask["ask_price"]), 5), 
+        }
+        return quantity
+
+        
     def check_balance(self, wallet_name: str) -> dict[str, dict[str, float]]:
         """
         Checks the balance of specified wallet (doge/usd)
