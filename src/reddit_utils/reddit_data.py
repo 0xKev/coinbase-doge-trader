@@ -30,15 +30,40 @@ class RedditClient:
             'curiosity killed the cat', "cat's pajamas", 'scaredy cat', 'cool cat',
             'copy cat', 'catitude', 'catsplay', 'cat burglar', 'whisker fatigue'
         }
+        self.titles = ""
+        self.majority = ""
 
-    def process_titles(self) -> list[str]:
+    def process_titles(self, num_posts: int = 5) -> list[str]:
+        """
+        Returns specified number of top posts the previous day to transform to lowercase and removes punctuation.
+
+        Args:
+            num_posts (int): Number of posts to retrieve
+
+        Returns:
+            list[str]: A processed list of the top number of posts (lowercase and no punctuation)
+        """
         processed_titles = []
-        for submission in self.client.subreddit("aww").top(time_filter="day", limit=5):
+        for submission in self.client.subreddit("aww").top(time_filter="day", limit=num_posts):
             processed_titles.append("".join(char for char in submission.title if char not in string.punctuation).lower())
+        self.titles = processed_titles
         return processed_titles
     
+    def get_majority(self) -> str:
+        counts = {
+            "dogs": 0,
+            "cats": 0,
+        }
 
-    
+        for title in self.titles:
+            if any(keyword in title for keyword in self.dog_word_lists):
+                print("dogs added")
+                counts["dogs"] += 1
+            if any(keyword in title for keyword in self.cat_word_lists):
+                print("cats added")
+                counts["cats"] += 1
+        print(counts)
+        return max(counts, key=counts.get)
     
 
     
@@ -50,6 +75,8 @@ if __name__ == "__main__":
         client_secret=REDDIT_CLIENT_SECRET,
     )
     print(reddit.process_titles())
+    print("\n------\n")
+    print(reddit.get_majority())
 
     
     
