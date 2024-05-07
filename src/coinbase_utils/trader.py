@@ -96,7 +96,7 @@ class CoinbaseTrader:
         Places a market order for DOGE coin if sufficient money
 
         Args:
-            buy_cost (str): Amount of money to spend on order
+            buy_cost (str): Amount of money in USD to spend on order
         
         Returns:
             bool: True if order placed successfully, else False
@@ -110,7 +110,7 @@ class CoinbaseTrader:
             )
             return order["success"]
         return False
-    
+        
     def check_balance(self, wallet_name: str) -> float:
         """
         Checks the balance of specified wallet (doge/usd)
