@@ -14,21 +14,21 @@ class RedditClient:
             client_secret=client_secret,
             user_agent="python:dog-stats:v0.1.0 (by /u/crunchy)"
         )
-        self.cat_word_lists = {
+        self.dog_word_lists = {
             'doggo', 'pupper', 'good boy', 'good girl', 'bork', 'woof', 'puppy eyes',
             'snoot', 'belly rub', 'ear scratch', 'head tilt', 'tippy taps', 'wigglebutt',
             'doggo language', 'puppy tax', 'dog tax', 'rescue dog', 'mutt', 'purebred',
             'dog park', 'puppy kindergarten', 'dog training', 'positive reinforcement',
-            'treat', 'boop the snoot', "who's a good boy", "who's a good girl"
+            'treat', 'boop the snoot', "who's a good boy", "who's a good girl", 'dog'
         }
-        self.dog_word_lists = {
+        self.cat_word_lists = {
             'catto', 'kitty', 'kitten', 'purr', 'meow', 'beans', 'toe beans',
             'murder mittens', 'airplane ears', 'chattering', 'chirping', 'slow blink',
             'cat tax', 'belly trap', 'catnip', 'cat tree', 'scratching post',
             'laser pointer', 'cat toys', 'cardboard box', 'if it fits i sits',
             'caturday', 'purrito', 'catloaf', 'nip', 'rescue cat', 'nine lives',
             'curiosity killed the cat', "cat's pajamas", 'scaredy cat', 'cool cat',
-            'copy cat', 'catitude', 'catsplay', 'cat burglar', 'whisker fatigue'
+            'copy cat', 'catitude', 'catsplay', 'cat burglar', 'whisker fatigue', 'cat'
         }
         self.titles = ""
         self.majority = ""
@@ -62,8 +62,11 @@ class RedditClient:
             if any(keyword in title for keyword in self.cat_word_lists):
                 print("cats added")
                 counts["cats"] += 1
-        print(counts)
-        return max(counts, key=counts.get)
+        
+        if counts["dogs"] == counts["cats"]:
+            return "equal"
+        else:
+            return max(counts, key=counts.get)
     
 
     
