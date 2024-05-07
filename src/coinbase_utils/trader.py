@@ -132,7 +132,7 @@ class CoinbaseTrader:
             )
             return sell_order["success"]
         
-    def check_balance(self, wallet_name: str) -> dict[str, list[float, float]]:
+    def check_balance(self, wallet_name: str) -> dict[str, dict[str, float]]:
         """
         Checks the balance of specified wallet (doge/usd)
 
@@ -140,7 +140,7 @@ class CoinbaseTrader:
             wallet_name (str): Name of wallet
         
         Returns:
-            dict[str, list[float, float]]: A dictionary containing wallet name as key and a list of wallet balance and worth as value.
+            dict[str, dict[str, float]]: A dictionary containing wallet name as key and a dict of wallet balance and worth as value.
         """
         if wallet_name not in self.wallets:
             raise "Invalid wallet name."
