@@ -157,7 +157,7 @@ class CoinbaseTrader:
             }
         }
 
-    def get_bid_ask(self, wallet_name: str = "doge") -> tuple[float, float]:
+    def get_bid_ask(self, wallet_name: str = "doge") -> dict[str, float]:
         """
         Gets the bid and ask price of specified cryptocurrency
 
@@ -171,7 +171,10 @@ class CoinbaseTrader:
         bid = float(prices["pricebooks"][0]["bids"][0]["price"])
         ask = float(prices["pricebooks"][0]["asks"][0]["price"])
 
-        return (bid, ask)
+        return {
+            "bid_price": bid,
+            "ask_price": ask,
+        }
     
     
 class SandboxCoinbaseTrader:
