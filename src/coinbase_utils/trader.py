@@ -111,6 +111,15 @@ class CoinbaseTrader:
             return order["success"]
     
     def sell_order(self, sell_cost: str = "1") -> bool:
+        """
+        Places a market sell order for the amount of DOGE coin specified
+
+        Args:
+            sell_cost (str): Amount of doge coin to sell (default 1)
+
+        Returns:
+            bool: True if order placed successfully, else False
+        """
         if self.check_balance("doge") - 1 >= int(sell_cost):
             # -1 to consider fees
             sell_order = self.client.market_order_sell(
