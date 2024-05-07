@@ -132,7 +132,16 @@ class CoinbaseTrader:
             )
             return sell_order["success"]
         
-    def cost_to_quantity(self, cost: int = 1) -> float:
+    def cost_to_quantity(self, cost: int = 1) -> dict[str, float]:
+        """"
+        Determines the quantity of coins for bid and sell price from a specified cost
+
+        Args:
+            cost (int): The amount of money to convert to bid/ask quantity 
+        
+        Returns:
+            dict[str, float]: A dictionary of the bid/ask with each quantity
+        """
         bid_ask: dict[str, float] = self.get_bid_ask("doge")
         quantity = {
             "bid_quantity": round((cost / bid_ask["bid_price"]), 5),
