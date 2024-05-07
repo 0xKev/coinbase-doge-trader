@@ -132,7 +132,7 @@ class CoinbaseTrader:
             )
             return sell_order["success"]
         
-    def check_balance(self, wallet_name: str) -> float:
+    def check_balance(self, wallet_name: str) -> dict[str, list[float, float]]:
         """
         Checks the balance of specified wallet (doge/usd)
 
@@ -146,8 +146,11 @@ class CoinbaseTrader:
             raise "Invalid wallet name."
         
         account = self.get_acc_details(wallet_name)["account"]
-        balance = float(account["available_balance"]["value"])
-        return round(balance, 5)
+        balance = round(float(account["available_balance"]["value"]), 5)
+        ask_price = self.get_bid_ask("doge")[1]
+        value = round(ask_price * balance, 2)
+
+        return {wallet_name: [balance, value]}
 
     def get_bid_ask(self, wallet_name: str = "doge") -> tuple[float, float]:
         """
