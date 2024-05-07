@@ -109,7 +109,16 @@ class CoinbaseTrader:
                     quote_size=buy_cost,
             )
             return order["success"]
-        return False
+    
+    def sell_order(self, sell_cost: str = "1") -> bool:
+        if self.check_balance("doge") - 1 >= int(sell_cost):
+            # -1 to consider fees
+            sell_order = self.client.market_order_sell(
+                client_order_id=str(int(time())),
+                product_id="DOGE-USD",
+                base_size=sell_cost,
+            )
+            return sell_order["success"]
         
     def check_balance(self, wallet_name: str) -> float:
         """
@@ -160,6 +169,7 @@ class SandboxCoinbaseTrader:
     
     
 if __name__ == "__main__":
-    doge_trader = CoinbaseTrader(COINBASE_API_KEY=COINBASE_API_KEY_NAME, api_secret=COINBASE_PRIVATE_KEY)
-    account = doge_trader.get_acc_details()
+    doge_trader = CoinbaseTrader(api_key=COINBASE_API_KEY_NAME, api_secret=COINBASE_PRIVATE_KEY)
+    account = doge_trader.get_acc_details("doge")
     print(doge_trader.list_accounts())
+    print(doge_trader.sell_order())
