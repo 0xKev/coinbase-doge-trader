@@ -160,8 +160,8 @@ class CoinbaseTrader:
             tuple[float, float]: Tuple of the bid and ask price
         """
         prices = self.client.get_best_bid_ask(self.product_ids[wallet_name])
-        bid = prices["pricebooks"][0]["bids"][0]["price"]
-        ask = prices["pricebooks"][0]["asks"][0]["price"]
+        bid = float(prices["pricebooks"][0]["bids"][0]["price"])
+        ask = float(prices["pricebooks"][0]["asks"][0]["price"])
 
         return (bid, ask)
     
