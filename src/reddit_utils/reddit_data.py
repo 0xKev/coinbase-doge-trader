@@ -31,7 +31,7 @@ class RedditClient:
             'copy cat', 'catitude', 'catsplay', 'cat burglar', 'whisker fatigue', 'cat',
             'car'
         }
-        self.titles = ""
+        self.titles = self.process_titles()
         self.majority = ""
 
     def process_titles(self, num_posts: int = 5) -> list[str]:
