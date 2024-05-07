@@ -149,7 +149,7 @@ class CoinbaseTrader:
         balance = float(account["available_balance"]["value"])
         return round(balance, 5)
 
-    def get_bid_ask(self, wallet_name: str) -> tuple[float, float]:
+    def get_bid_ask(self, wallet_name: str = "doge") -> tuple[float, float]:
         prices = self.client.get_best_bid_ask(self.product_ids[wallet_name])
         bid = prices["pricebooks"][0]["bids"][0]["price"]
         ask = prices["pricebooks"][0]["asks"][0]["price"]
