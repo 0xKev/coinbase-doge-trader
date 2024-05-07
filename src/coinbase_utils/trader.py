@@ -150,7 +150,12 @@ class CoinbaseTrader:
         ask_price = self.get_bid_ask("doge")[1]
         value = round(ask_price * balance, 2)
 
-        return {wallet_name: [balance, value]}
+        return {
+            wallet_name: {
+                "balance": balance, 
+                "value": value
+            }
+        }
 
     def get_bid_ask(self, wallet_name: str = "doge") -> tuple[float, float]:
         """
