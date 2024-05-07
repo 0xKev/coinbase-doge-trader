@@ -50,6 +50,12 @@ class RedditClient:
         return processed_titles
     
     def get_majority(self) -> str:
+        """
+        Determines if the majority of top posts are related to cats or dogs.
+
+        Returns:
+            str: "dogs" if majority are dogs, "cats" if majority are cats else "equal
+        """
         counts = {
             "dogs": 0,
             "cats": 0,
@@ -57,10 +63,8 @@ class RedditClient:
 
         for title in self.titles:
             if any(keyword in title for keyword in self.dog_word_lists):
-                print("dogs added")
                 counts["dogs"] += 1
             if any(keyword in title for keyword in self.cat_word_lists):
-                print("cats added")
                 counts["cats"] += 1
         
         if counts["dogs"] == counts["cats"]:
