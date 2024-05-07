@@ -165,7 +165,7 @@ class CoinbaseTrader:
             wallet_name (str): Name of coin
 
         Returns:
-            tuple[float, float]: Tuple of the bid and ask price
+            dict[str, float]: A dictionary containg the bid and ask price
         """
         prices = self.client.get_best_bid_ask(self.product_ids[wallet_name])
         bid = float(prices["pricebooks"][0]["bids"][0]["price"])
