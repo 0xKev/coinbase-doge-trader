@@ -140,7 +140,7 @@ class CoinbaseTrader:
             wallet_name (str): Name of wallet
         
         Returns:
-            float: Balance of specified wallet (doge/usd)
+            dict[str, list[float, float]]: A dictionary containing wallet name as key and a list of wallet balance and worth as value.
         """
         if wallet_name not in self.wallets:
             raise "Invalid wallet name."
