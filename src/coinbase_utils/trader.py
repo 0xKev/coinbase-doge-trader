@@ -133,7 +133,7 @@ class CoinbaseTrader:
             return sell_order["success"]
         
     def cost_to_quantity(self, cost: int = 1) -> dict[str, float]:
-        """"
+        """
         Determines the quantity of coins for bid and sell price from a specified cost
 
         Args:
