@@ -41,6 +41,9 @@ class CoinbaseTrader:
             "doge": "DOGE Wallet",
             "usd": "Cash (USD)",
         }
+        self.product_ids = {
+            "doge": "DOGE-USD",
+        }
         
         self.doge_uuid = self.get_uuid("doge")
         self.usd_uuid = self.get_uuid("usd")
@@ -146,6 +149,12 @@ class CoinbaseTrader:
         balance = float(account["available_balance"]["value"])
         return round(balance, 5)
 
+    def get_bid_ask(self, wallet_name: str) -> tuple[float, float]:
+        prices = self.client.get_best_bid_ask(self.product_ids[wallet_name])
+        bid = prices["pricebooks"][0]["bids"][0]["price"]
+        ask = prices["pricebooks"][0]["asks"][0]["price"]
+
+        return (bid, ask)
     
     
 class SandboxCoinbaseTrader:
@@ -178,7 +187,4 @@ class SandboxCoinbaseTrader:
     
     
 if __name__ == "__main__":
-    doge_trader = CoinbaseTrader(api_key=COINBASE_API_KEY_NAME, api_secret=COINBASE_PRIVATE_KEY)
-    account = doge_trader.get_acc_details("doge")
-    print(doge_trader.list_accounts())
-    print(doge_trader.sell_order())
+    pass
