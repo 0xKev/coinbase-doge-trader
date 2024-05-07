@@ -28,7 +28,8 @@ class RedditClient:
             'laser pointer', 'cat toys', 'cardboard box', 'if it fits i sits',
             'caturday', 'purrito', 'catloaf', 'nip', 'rescue cat', 'nine lives',
             'curiosity killed the cat', "cat's pajamas", 'scaredy cat', 'cool cat',
-            'copy cat', 'catitude', 'catsplay', 'cat burglar', 'whisker fatigue', 'cat'
+            'copy cat', 'catitude', 'catsplay', 'cat burglar', 'whisker fatigue', 'cat',
+            'car'
         }
         self.titles = ""
         self.majority = ""
@@ -81,7 +82,7 @@ if __name__ == "__main__":
         client_id=REDDIT_CLIENT_ID,
         client_secret=REDDIT_CLIENT_SECRET,
     )
-    print(reddit.process_titles())
+    print(reddit.process_titles(20))
     print("\n------\n")
     print(reddit.get_majority())
 
