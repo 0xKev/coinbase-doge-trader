@@ -123,12 +123,15 @@ class CoinbaseTrader:
         Returns:
             bool: True if order placed successfully, else False
         """
-        if self.check_balance("doge") - 1 >= int(sell_cost):
+        usd_value = self.check_balance("doge")["doge"]["value"]
+        sell_quantity = self.cost_to_quantity(cost=sell_cost)["ask_quantity"]
+        
+        if usd_value >= float(sell_cost):
             # -1 to consider fees
             sell_order = self.client.market_order_sell(
                 client_order_id=str(int(time())),
                 product_id="DOGE-USD",
-                base_size=sell_cost,
+                base_size=str(sell_quantity),
             )
             return sell_order["success"]
         
