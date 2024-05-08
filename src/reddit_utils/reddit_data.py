@@ -34,7 +34,7 @@ class RedditClient:
         self.titles = self.process_titles()
         self.majority = ""
 
-    def process_titles(self, num_posts: int = 5) -> list[str]:
+    def process_titles(self, num_posts: int = 30) -> list[str]:
         """
         Returns specified number of top posts the previous day to transform to lowercase and removes punctuation.
 
@@ -45,7 +45,7 @@ class RedditClient:
             list[str]: A processed list of the top number of posts (lowercase and no punctuation)
         """
         processed_titles = []
-        for submission in self.client.subreddit("aww").top(time_filter="day", limit=30):
+        for submission in self.client.subreddit("aww").top(time_filter="day", limit=num_posts):
             processed_titles.append("".join(char for char in submission.title if char not in string.punctuation).lower())
         self.titles = processed_titles
         return processed_titles
