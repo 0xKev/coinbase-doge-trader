@@ -169,7 +169,7 @@ class CoinbaseTrader:
         
         account = self.get_acc_details(wallet_name)["account"]
         balance = round(float(account["available_balance"]["value"]), 5)
-        ask_price = self.get_bid_ask("doge")[1]
+        ask_price = self.get_bid_ask("doge")["ask_price"]
         value = round(ask_price * balance, 2)
 
         return {
