@@ -1,4 +1,4 @@
-# Reddit DOGE Coin Trader [WIP]#
+# Reddit DOGE Coin Trader [WIP] #
 
 The DOGE Coin Trader python project utilizes Coinbase API and Reddit API to automate DOGE coin trading decisions based on the top posts from the subreddit "/r/aww" in the past 24 hours, analyzes the number of dogs versus cat posts and makes the decision to automatically buy or sell DOGE coin according to the majority.
 
@@ -50,6 +50,7 @@ cd coinbase-doge-trader/
 pip install -r requirements.txt
 ```
 
-##
+## How it works ##
+[WIP]
 
 
