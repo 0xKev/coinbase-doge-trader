@@ -145,10 +145,11 @@ class CoinbaseTrader:
         Returns:
             dict[str, float]: A dictionary of the bid/ask with each quantity
         """
+        cost = int(cost) # to accept both str and int
         bid_ask: dict[str, float] = self.get_bid_ask("doge")
         quantity = {
-            "bid_quantity": round((cost / bid_ask["bid_price"]), 5),
-            "ask_quantity": round((cost / bid_ask["ask_price"]), 5), 
+            "bid_quantity": round((cost / bid_ask["bid_price"]), 1),
+            "ask_quantity": round((cost / bid_ask["ask_price"]), 1), 
         }
         return quantity
 
